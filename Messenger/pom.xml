@@ -37,6 +37,11 @@
             <artifactId>jersey-container-servlet-core</artifactId>
         </dependency>
     
+	<dependency>
+		<groupId>org.glassfish.jersey.media</groupId>
+		<artifactId>jersey-media-moxy</artifactId>
+	</dependency>
+    
   </dependencies>
   
   <dependencyManagement>
@@ -48,6 +53,7 @@
     	<type>pom</type>
     	<scope>import</scope>
     </dependency>
+    
   	</dependencies>
   </dependencyManagement>
   

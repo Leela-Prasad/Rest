@@ -1,16 +1,37 @@
 package com.rest.messenger.service;
 
-import java.util.Arrays;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import com.rest.messenger.bootstrap.MessengerBootstrap;
 import com.rest.messenger.model.Message;
 
 public class MessageService {
 
+	private Map<Long,Message> messages = MessengerBootstrap.getMessages();
+	
 	public List<Message> getAllMessages() {
-		return Arrays.asList(new Message(1,"Hello World",new Date(),"Leela"),
-							 new Message(2,"Hello Jersey",new Date(),"Leela"));
+		return new ArrayList<Message>(messages.values());
+	}
+	
+	public Message getMessage(Long id) {
+		return messages.get(id);
+	}
+	
+	public Message addMessage(Message message) {
+		message.setId(messages.size()+1L);
+		messages.put(message.getId(), message);
+		return message;
+	}
+	
+	public Message updateMessage(Message message) {
+		messages.put(message.getId(), message);
+		return message;
+	}
+	
+	public void removeMessage(Long id) {
+		messages.remove(id);
 	}
 }
 
