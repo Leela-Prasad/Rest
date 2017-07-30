@@ -2,6 +2,7 @@ package com.rest.messenger.resource;
 
 import java.util.List;
 
+import javax.ws.rs.BeanParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -10,9 +11,9 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
+import com.rest.messenger.beans.MessageResourceBean;
 import com.rest.messenger.model.Message;
 import com.rest.messenger.service.MessageService;
 
@@ -22,15 +23,23 @@ public class MessengerResource {
 
 	MessageService service = new MessageService();
 	
+	/**
+	 * 
+	 * @param messageBean
+	 * @return
+	 * Bean Param is used when we have multiple params and
+	 * getting these params using annotations as method arguments
+	 * will be messy. so we will define a bean with the param and 
+	 * inject that bean using BeanParam Annotation. so that we
+	 * can take required parameters in our logic
+	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Message> getMessages(@QueryParam("year") Integer year,
-									@QueryParam("start") Integer start,
-									@QueryParam("size") Integer size) {
-		if(year!=null)
-			return service.getAllMessages(year);
-		else if(start!=null && size!=null)
-			return service.getAllMessages(start, size);
+	public List<Message> getMessages(@BeanParam MessageResourceBean messageBean) {
+		if(messageBean.getYear()!=null)
+			return service.getAllMessages(messageBean.getYear());
+		else if(messageBean.getStart()!=null && messageBean.getSize()!=null)
+			return service.getAllMessages(messageBean.getStart(), messageBean.getSize());
 		
 			return service.getAllMessages();
 	}
