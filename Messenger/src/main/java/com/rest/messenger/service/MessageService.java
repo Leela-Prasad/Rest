@@ -1,6 +1,7 @@
 package com.rest.messenger.service;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -13,6 +14,24 @@ public class MessageService {
 	
 	public List<Message> getAllMessages() {
 		return new ArrayList<Message>(messages.values());
+	}
+	
+	public List<Message> getAllMessages(Integer year) {
+		Calendar cal = Calendar.getInstance();
+		List<Message> filteredMessages = new ArrayList<>();
+		messages.forEach((id,message) -> { 
+			cal.setTime(message.getDateCreated());
+			if(cal.get(Calendar.YEAR) == year) {
+				filteredMessages.add(message);
+			}
+		});
+		return filteredMessages;
+	}
+	
+	public List<Message> getAllMessages(Integer start,Integer size) {
+		if((start+size)>messages.size())
+			return new ArrayList<>();
+		return new ArrayList<>(messages.values()).subList(start, start+size);
 	}
 	
 	public Message getMessage(Long id) {

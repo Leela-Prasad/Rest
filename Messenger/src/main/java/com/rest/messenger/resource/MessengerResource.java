@@ -10,6 +10,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import com.rest.messenger.model.Message;
@@ -23,8 +24,15 @@ public class MessengerResource {
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Message> getMessages() {
-		return service.getAllMessages();
+	public List<Message> getMessages(@QueryParam("year") Integer year,
+									@QueryParam("start") Integer start,
+									@QueryParam("size") Integer size) {
+		if(year!=null)
+			return service.getAllMessages(year);
+		else if(start!=null && size!=null)
+			return service.getAllMessages(start, size);
+		
+			return service.getAllMessages();
 	}
 	
 	@GET
