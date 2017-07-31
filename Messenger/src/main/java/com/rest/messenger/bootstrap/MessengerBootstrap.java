@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.rest.messenger.model.Comment;
 import com.rest.messenger.model.Message;
 import com.rest.messenger.model.Profile;
 
@@ -18,9 +19,22 @@ public class MessengerBootstrap {
 	
 	public static Map<Long,Message> getMessages() {
 		loadMessages();
+		loadComments();
 		return messages;
 	}
 	
+	private static void loadComments() {
+		Map<Long,Comment> comment1 = new HashMap<>();
+		comment1.put(1L,new Comment(1l,"comment1","leela",new Date()));
+		comment1.put(2L,new Comment(2l,"comment2","leela",new Date()));
+		comment1.put(3L,new Comment(3l,"comment3","leela",new Date()));
+		messages.get(1L).setComments(comment1);
+		Map<Long,Comment> comment2 = new HashMap<>();
+		comment2.put(1L,new Comment(1l,"comment1","leela",new Date()));
+		comment2.put(2L,new Comment(2l,"comment2","leela",new Date()));
+		messages.get(2L).setComments(comment2);
+	}
+
 	public static Map<String,Profile> getProfiles() {
 		loadProfiles();
 		return profiles;

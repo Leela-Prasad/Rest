@@ -80,7 +80,7 @@
     			<webApp>
     				<contextPath>/messenger</contextPath>
     			</webApp>
-    			<scanIntervalSeconds>10</scanIntervalSeconds>
+    			<scanIntervalSeconds>3</scanIntervalSeconds>
     		</configuration>
     	</plugin>
     	
