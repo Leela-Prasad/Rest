@@ -18,6 +18,7 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 import com.rest.messenger.beans.MessageResourceBean;
+import com.rest.messenger.exceptions.DataNotFoundException;
 import com.rest.messenger.model.Message;
 import com.rest.messenger.service.MessageService;
 
@@ -52,7 +53,10 @@ public class MessengerResource {
 	@Path("/{messageId}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Message getMessage(@PathParam("messageId") Long id) {
-		return service.getMessage(id);
+		Message message = service.getMessage(id);
+		if(message==null)
+			throw new DataNotFoundException("Message not found for messageId : "+id);
+		return message;
 	}
 	
 	@POST
