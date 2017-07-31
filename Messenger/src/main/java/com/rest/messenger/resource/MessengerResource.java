@@ -11,7 +11,11 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.UriInfo;
 
 import com.rest.messenger.beans.MessageResourceBean;
 import com.rest.messenger.model.Message;
@@ -54,8 +58,14 @@ public class MessengerResource {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Message addMessage(Message message) {
-		return service.addMessage(message);
+	public Response addMessage(Message message,@Context UriInfo uriInfo) {
+		Message newMessage = service.addMessage(message);
+		String selfUrl = uriInfo.getAbsolutePathBuilder().path(String.valueOf(message.getId())).toString();
+		Response response = Response.status(Status.CREATED)
+									.entity(newMessage)
+									.header("self", selfUrl)
+									.build();
+		return response;
 	}
 	
 	@PUT
