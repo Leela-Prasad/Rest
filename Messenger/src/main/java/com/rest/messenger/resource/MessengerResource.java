@@ -51,11 +51,25 @@ public class MessengerResource {
 	
 	@GET
 	@Path("/{messageId}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Message getMessage(@PathParam("messageId") Long id) {
+	@Produces(value = {MediaType.APPLICATION_JSON,MediaType.TEXT_XML})
+	public Message getMessage(@PathParam("messageId") Long id,@Context UriInfo uriInfo) {
 		Message message = service.getMessage(id);
 		if(message==null)
 			throw new DataNotFoundException("Message not found for messageId : "+id);
+		String selfUrl = uriInfo.getAbsolutePath().toString();		
+		message.addLink(selfUrl,"self");
+		String commentsUrl = uriInfo.getBaseUriBuilder()
+									.path(MessengerResource.class)
+									.path(MessengerResource.class,"getCommentResource")
+									.path(CommentResource.class)
+									.resolveTemplate("messageId", id)
+									.toString();
+		message.addLink(commentsUrl, "comments");
+		String profileUrl = uriInfo.getBaseUriBuilder()
+									.path(ProfileResource.class)
+									.path(message.getAuthor())
+									.toString();
+		message.addLink(profileUrl, "profiles");
 		return message;
 	}
 	
