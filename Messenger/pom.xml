@@ -58,7 +58,7 @@
   </dependencyManagement>
   
   <build>
-    <finalName>Rest</finalName>
+    <finalName>Messenger</finalName>
     
     <plugins>
     	
