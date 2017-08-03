@@ -1,4 +1,4 @@
-package com.rest.messenger;
+package com.rest.messenger.resources;
 
 import javax.inject.Singleton;
 import javax.ws.rs.GET;
